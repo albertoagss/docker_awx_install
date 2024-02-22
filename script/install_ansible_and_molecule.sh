@@ -21,11 +21,11 @@ if [[ "$yesornot" == "y" ]]; then
 	echo "Installing Ansible..."
 	python3 -m pip install ansible --user > /dev/null
 
-	echo "Installing Molecule-3.4..."
-	pip3 install molecule==3.4.0 > /dev/null
+#	echo "Installing Molecule-3.4..."
+#	pip3 install molecule==3.4.0 > /dev/null
 
-	echo "Installing Molecule[docker]..."
-	pip3 install molecule[docker]==3.4.0 > /dev/null
+#	echo "Installing Molecule[docker]..."
+#	pip3 install molecule[docker]==3.4.0 > /dev/null
 
 	echo "Installing Ansible-lint-5.1.1..."
 	pip3 install ansible-lint==5.1.1 > /dev/null
@@ -37,7 +37,7 @@ if [[ "$yesornot" == "y" ]]; then
 	sudo pip3 install --upgrade selinux
 
 elif [[ "$yesornot" == "n" ]]; then
-	echo "Ok! Bye!"
+	echo "Ok! Bye!
 	exit 0
 else
 	echo "Incorrect option..."

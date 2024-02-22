@@ -5,3 +5,5 @@ DATABASE_PORT=5432
 DATABASE_PASSWORD=awxpass
 AWX_ADMIN_USER=admin
 AWX_ADMIN_PASSWORD=100220
+admin_user=admin
+admin_password=password
