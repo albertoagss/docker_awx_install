@@ -1,0 +1,40 @@
+---
+- name: Download Docker-Compose
+  get_url:
+    url: "https://github.com/docker/compose/releases/download/{{ compose_version }}/docker-compose-linux-x86_64"
+    dest: /usr/local/bin
+    mode: 0771
+  register: result
+  retries: 5
+  until: result is success
+
+- name: Install Docker Compose
+  command: chmod +x /usr/local/bin/docker-compose-linux-x86_64
+  when: result is success
+
+  #- name: Install Docker-Compose
+  #  pip:
+  #    name: docker-compose
+  #    executable: pip3
+  #    extra_args: --user
+  #  become: false
+
+- name: Place completion script
+  uri:
+    url: https://raw.githubusercontent.com/docker/compose/master/contrib/completion/bash/docker-compose
+    dest: /etc/bash_completion.d/docker-compose
+    follow_redirects: true
+  register: result
+  retries: 5
+  until: result is success
+
+- name: Add user to docker group
+  user:
+    name: "{{ docker_user }}"
+    groups: docker
+    append: true
+
+- name: Create group docker
+  group:
+    name: docker
+    state: present

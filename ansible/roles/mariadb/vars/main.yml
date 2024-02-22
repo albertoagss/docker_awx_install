@@ -1,0 +1,6 @@
+---
+root_psswd: "toor"
+new_user: "nextcloud"
+new_user_password: "nextcloud"
+new_user_host: "%"
+new_database: "nextcloud"

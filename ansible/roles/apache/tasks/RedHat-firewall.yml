@@ -1,0 +1,35 @@
+---
+- name: Delete firewalld if it is install
+  dnf:
+    name: firewalld
+    state: absent
+
+- name: install ufw
+  dnf:
+    name: ufw
+    state: present
+  register: result
+  retries: 5
+  until: result is success
+  notify: Start ufw Debian
+
+- meta: flush_handlers
+
+- name: Allow ssh service
+  ufw:
+    rule: allow
+    name: ssh
+  notify:
+    - Enable ufw Redhat
+    - Reload ufw Redhat
+
+- name: Allow apache service
+  ufw:
+    rule: allow
+    port: 8080
+    proto: tcp
+  notify:
+    - Enable ufw Redhat
+    - Reload ufw Redhat
+
+- meta: flush_handlers

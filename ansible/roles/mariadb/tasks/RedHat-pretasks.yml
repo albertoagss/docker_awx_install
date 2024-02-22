@@ -1,0 +1,71 @@
+---
+- name: Update and upgrade packages
+  yum:
+    name: '*'
+    state: latest
+  register: result
+  retries: 5
+  until: result is success
+
+- name: Install dnf
+  yum:
+    name: dnf
+    state: latest
+  register: result
+  retries: 5
+  until: result is success
+
+- name: Enable EPEL repository
+  dnf:
+    name: epel-release
+    state: latest
+  register: result
+  retries: 5
+  until: result is success
+
+- name: Update and upgrade packages
+  dnf:
+    name: '*'
+    state: latest
+  register: result
+  retries: 5
+  until: result is success
+
+- name: Uninstall old Python versions
+  dnf:
+    name: "{{ item }}"
+    state: absent
+  with_items:
+    - python2
+    - python36
+
+- name: Install Python39
+  dnf:
+    name: python39
+    state: present
+  register: result
+  retries: 5
+  until: result is success
+
+- name: Install packages
+  dnf:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - mariadb-server
+  register: result
+  retries: 5
+  until: result is success
+  notify: Start MariaDB service
+
+- name: Install MySQL-python
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+      - MySQL-python3
+  register: result
+  retries: 5
+  until: result is success
+
+- meta: flush_handlers
