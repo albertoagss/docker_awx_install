@@ -1,9 +1,0 @@
----
-- hosts: all
-  become: True
-
-  roles:
-    - role: upgrade
-
-    - role: reboot
-      when: reboot in "Y, y, yes"

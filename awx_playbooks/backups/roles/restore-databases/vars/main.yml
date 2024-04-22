@@ -1,8 +1,0 @@
----
-which_database: "nextcloud"
-backup_dir: "/db_backups"
-nfs_src: "192.168.10.100:/mnt/db_backups/dbackup"
-restore_user: "root"
-restore_password: "toor"
-latest_backup: "yes"
-#backup_file: filename
