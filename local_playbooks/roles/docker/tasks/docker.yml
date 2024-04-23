@@ -1,21 +1,55 @@
 ---
+
+- name: Update packages
+  yum:
+          name: "*"
+          state: latest
+  retries: 5
+  delay: 10
+
+- name: Add Docker repo
+  get_url:
+          url: https://download.docker.com/linux/centos/docker-ce.repo
+          dest: /etc/yum.repos.d/
+  retries: 5
+  delay: 10
+
+- name: Update cache
+  yum:
+          update_cache: true
+  retries: 5
+  delay: 10
+
+- name: Uninstall all older versions of Docker
+  yum:
+          name: "{{ item }}"
+          state: absent
+  with_items:
+          - docker
+          - docker-client
+          - docker-client-latest
+          - docker-common
+          - docker-latest
+          - docker-latest-logrotate
+          - docker-logrotate
+          - docker-engine
+          - podman
+          - runc
+
 - name: Install Docker
   yum:
-    name: "{{ item }}"
-    state: present
+          name: "{{ item }}"
+          state: present
   with_items:
-    - docker-ce
-    - docker-ce-cli
-    - containerd.io
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-buildx-plugin
+          - docker-compose-plugin
   register: result
   retries: 5
-  until: result is success
+  delay: 10
   notify: Start and enable Docker
-
-- name: Create group docker
-  group:
-    name: docker
-    state: present
 
 - name: Add user to docker group
   user:
